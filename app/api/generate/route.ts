@@ -1,7 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { FTIP_SYSTEM_PROMPT, buildUserPrompt } from "@/lib/ftip-prompt";
 import { getAnthropicApiKey } from "@/lib/env";
-import type { GenerateRequest } from "@/lib/types";
+import { parseLlmJson } from "@/lib/parse-llm-json";
+import type { GenerateRequest, GenerateResponse } from "@/lib/types";
 
 export async function POST(request: Request) {
   const body: GenerateRequest = await request.json();
@@ -42,44 +43,34 @@ export async function POST(request: Request) {
     const text =
       response.content[0].type === "text" ? response.content[0].text : "";
 
-    // Strip markdown code blocks
-    let jsonText = text.trim();
-    if (jsonText.startsWith("```")) {
-      jsonText = jsonText
-        .replace(/^```(?:json)?\s*\n?/, "")
-        .replace(/\n?```\s*$/, "");
-    }
-
-    // Fix common LLM JSON issues
-    jsonText = jsonText.replace(/,\s*([}\]])/g, "$1"); // trailing commas
-
-    // Fix unescaped newlines inside JSON string values
-    // Replace actual newlines inside strings with \\n
-    jsonText = jsonText.replace(
-      /"(?:[^"\\]|\\.)*"/g,
-      (match) => match.replace(/\n/g, "\\n")
-    );
-
     try {
-      const parsed = JSON.parse(jsonText);
+      const parsed = parseLlmJson<GenerateResponse>(text);
       return Response.json(parsed);
-    } catch {
-      // If JSON parse fails, return raw text for debugging
-      return Response.json(
-        {
-          violationSurfaces: [],
-          jokes: [
-            {
-              mechanism: "raw",
-              tone: "raw",
-              form: "raw",
-              scale: body.scale,
-              text: text,
-              analysis: "JSON parse failed - raw response shown",
-            },
-          ],
-        },
-      );
+    } catch (parseErr) {
+      // Fallback: show raw text as a single joke
+      console.error("JSON parse failed:", parseErr, "Raw:", text.substring(0, 200));
+      return Response.json({
+        violationSurfaces: ["(JSON parsing selhal \u2014 zobrazuji raw text)"],
+        jokes: [
+          {
+            mechanism: "auto",
+            tone: "auto",
+            form: "auto",
+            scale: body.scale,
+            text: text
+              .replace(/^```(?:json)?\s*\n?/, "")
+              .replace(/\n?```\s*$/, "")
+              .replace(/[{}[\]",:]/g, (m) => {
+                // Strip JSON syntax to show readable text
+                if (m === '"') return "";
+                if (m === ",") return "\n";
+                if (m === "{" || m === "}" || m === "[" || m === "]") return "";
+                return m;
+              }),
+            analysis: "Odpov\u011B\u010F nebyla ve validn\u00EDm JSON form\u00E1tu. Zkuste to znovu.",
+          },
+        ],
+      });
     }
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

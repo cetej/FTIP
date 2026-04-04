@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { TopicInput } from "@/components/topic-input";
 import { AxisControls } from "@/components/axis-controls";
 import { JokeResults } from "@/components/joke-results";
+import { ThemeToggle } from "@/components/theme-toggle";
 import type {
   Mechanism,
   Tone,
@@ -25,7 +26,6 @@ export default function Home() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<GenerateResponse | null>(null);
-  const [streamText, setStreamText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -34,7 +34,6 @@ export default function Home() {
 
     setIsLoading(true);
     setResults(null);
-    setStreamText("");
     setError(null);
 
     try {
@@ -50,7 +49,7 @@ export default function Home() {
       }
       setResults(data as GenerateResponse);
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Neznama chyba";
+      const message = err instanceof Error ? err.message : "Nezn\u00E1m\u00E1 chyba";
       setError(message);
     } finally {
       setIsLoading(false);
@@ -58,13 +57,20 @@ export default function Home() {
   };
 
   return (
-    <main>
+    <main className="bg-background text-foreground min-h-screen">
       <div className="container max-w-4xl mx-auto py-8 px-4 space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">FTIP</h1>
-          <p className="text-muted-foreground">
-            Humor Generator &mdash; Benign Violation Theory
-          </p>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex-1" />
+          <div className="text-center space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight">FTIP</h1>
+            <p className="text-sm text-muted-foreground">
+              Humor Generator &mdash; Benign Violation Theory
+            </p>
+          </div>
+          <div className="flex-1 flex justify-end">
+            <ThemeToggle />
+          </div>
         </div>
 
         <Separator />
@@ -132,11 +138,7 @@ export default function Home() {
           </Card>
         )}
 
-        <JokeResults
-          data={results}
-          isLoading={isLoading}
-          streamText={streamText}
-        />
+        <JokeResults data={results} isLoading={isLoading} />
       </div>
     </main>
   );

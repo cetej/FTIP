@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const inter = Inter({
+  variable: "--font-sans",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "FTIP — Humor Generator",
-  description: "Generátor vtipů na bázi Benign Violation Theory",
+  title: "FTIP \u2014 Humor Generator",
+  description: "Gener\u00E1tor vtip\u016F na b\u00E1zi Benign Violation Theory",
 };
 
 export default function RootLayout({
@@ -23,11 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="cs"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-    >
-      <body>{children}</body>
+    <html lang="cs" className={`${inter.variable} antialiased`} suppressHydrationWarning>
+      <body className="font-sans font-medium">{children}</body>
     </html>
   );
 }

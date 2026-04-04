@@ -8,22 +8,19 @@ import type { GenerateResponse } from "@/lib/types";
 interface JokeResultsProps {
   data: GenerateResponse | null;
   isLoading: boolean;
-  streamText: string;
 }
 
-export function JokeResults({ data, isLoading, streamText }: JokeResultsProps) {
-  if (isLoading && !data) {
+export function JokeResults({ data, isLoading }: JokeResultsProps) {
+  if (isLoading) {
     return (
       <Card>
         <CardContent className="py-12 text-center">
           <div className="animate-pulse space-y-4">
-            <div className="text-2xl">🎭</div>
+            <div className="text-4xl">{"\uD83C\uDFAD"}</div>
             <p className="text-muted-foreground">Generuji vtipy...</p>
-            {streamText && (
-              <pre className="text-xs text-left text-muted-foreground max-h-32 overflow-hidden opacity-30 mx-auto max-w-lg">
-                {streamText.slice(-200)}
-              </pre>
-            )}
+            <p className="text-xs text-muted-foreground">
+              {"\u010Cek\u00E1m na odpov\u011B\u010F od Claude (~15s)"}
+            </p>
           </div>
         </CardContent>
       </Card>
