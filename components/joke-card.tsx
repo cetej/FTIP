@@ -33,10 +33,14 @@ export function JokeCard({ joke, index }: JokeCardProps) {
             <Badge variant="secondary">{joke.tone}</Badge>
             <span className="text-muted-foreground text-xs">x</span>
             <Badge variant="secondary">{joke.form}</Badge>
+            <span className="text-muted-foreground text-xs">x</span>
+            <Badge variant="secondary">{joke.target}</Badge>
             <span className="text-muted-foreground text-xs">|</span>
             <Badge
               variant={
-                joke.scale === "dark"
+                joke.scale === "brutal"
+                  ? "destructive"
+                  : joke.scale === "dark"
                   ? "destructive"
                   : joke.scale === "sharp"
                   ? "default"

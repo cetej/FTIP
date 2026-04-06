@@ -12,6 +12,7 @@ import type {
   Mechanism,
   Tone,
   Form,
+  Target,
   Scale,
   GenerateResponse,
 } from "@/lib/types";
@@ -21,6 +22,7 @@ export default function Home() {
   const [mechanism, setMechanism] = useState<Mechanism>("auto");
   const [tone, setTone] = useState<Tone>("auto");
   const [form, setForm] = useState<Form>("auto");
+  const [target, setTarget] = useState<Target>("auto");
   const [scale, setScale] = useState<Scale>("medium");
   const [count, setCount] = useState(3);
 
@@ -40,7 +42,7 @@ export default function Home() {
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, mechanism, tone, form, scale, count }),
+        body: JSON.stringify({ topic, mechanism, tone, form, target, scale, count }),
       });
 
       const data = await response.json();
@@ -95,11 +97,13 @@ export default function Home() {
                   mechanism={mechanism}
                   tone={tone}
                   form={form}
+                  target={target}
                   scale={scale}
                   count={count}
                   onMechanismChange={setMechanism}
                   onToneChange={setTone}
                   onFormChange={setForm}
+                  onTargetChange={setTarget}
                   onScaleChange={setScale}
                   onCountChange={setCount}
                   disabled={isLoading}
@@ -124,7 +128,8 @@ export default function Home() {
               <span>
                 {mechanism === "auto" ? "auto" : mechanism} x{" "}
                 {tone === "auto" ? "auto" : tone} x{" "}
-                {form === "auto" ? "auto" : form} | {scale} | {count}x
+                {form === "auto" ? "auto" : form} x{" "}
+                {target === "auto" ? "auto" : target} | {scale} | {count}x
               </span>
             </div>
           )}

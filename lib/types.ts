@@ -29,16 +29,27 @@ export const FORMS = [
   { value: "seznam", label: "Seznam", description: "Progresivní body" },
 ] as const;
 
+export const TARGETS = [
+  { value: "auto", label: "Auto", description: "Systém vybere nejlepší" },
+  { value: "nikdo", label: "Nikdo", description: "Pozorování, situační humor" },
+  { value: "system", label: "Systém", description: "Instituce, byrokracie, pravidla" },
+  { value: "archetyp", label: "Archetyp", description: "Typická role, stereotyp, profese" },
+  { value: "konkretni", label: "Konkrétní", description: "Pojmenovaný terč, veřejná osoba" },
+  { value: "self", label: "Self", description: "Sebeironický, na vlastní účet" },
+] as const;
+
 export const SCALES = [
-  { value: "mild", label: "Mild", description: "Jemné, úsměv" },
-  { value: "medium", label: "Medium", description: "Jasné porušení, smích" },
-  { value: "sharp", label: "Sharp", description: "Hraniční, ostré" },
-  { value: "dark", label: "Dark", description: "Maximální, kontroverzní" },
+  { value: "mild", label: "Mild", description: "Úsměv — wordplay, pozorování, nulová oběť" },
+  { value: "medium", label: "Medium", description: "Smích — jasné porušení normy, nikdo terčem osobně" },
+  { value: "sharp", label: "Sharp", description: "Výdech — terč existuje, ostré, zachraňuje distance" },
+  { value: "dark", label: "Dark", description: "Šok — tabu, provokace, benign jen přes absurditu" },
+  { value: "brutal", label: "Brutal", description: "Mráz — extrém bez brzd, funguje jen přes totální nereálnost" },
 ] as const;
 
 export type Mechanism = (typeof MECHANISMS)[number]["value"];
 export type Tone = (typeof TONES)[number]["value"];
 export type Form = (typeof FORMS)[number]["value"];
+export type Target = (typeof TARGETS)[number]["value"];
 export type Scale = (typeof SCALES)[number]["value"];
 
 export interface GenerateRequest {
@@ -46,6 +57,7 @@ export interface GenerateRequest {
   mechanism: Mechanism;
   tone: Tone;
   form: Form;
+  target: Target;
   scale: Scale;
   count: number;
 }
@@ -54,6 +66,7 @@ export interface Joke {
   mechanism: string;
   tone: string;
   form: string;
+  target: string;
   scale: string;
   text: string;
   analysis: string;

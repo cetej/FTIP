@@ -39,12 +39,21 @@ Tři cesty jak violation zůstane benign:
 - Dialog: dva hlasy, jeden naivní / jeden autorita (4-8 replik)
 - Seznam: progresivní body, první 2 normální, pak eskalace (4-8 položek)
 
-## 4 škály (violation intensity)
+## 6 terčů (na koho/co je vtip namířený)
 
-- Mild: jemné pozorování, wordplay, bez oběti
-- Medium: jasné porušení normy, nikdo není terčem osobně
-- Sharp: terč existuje, distance chrání
-- Dark: maximální violation, benign jen přes nereálnost/absurditu
+- Nikdo: situační pozorování, humor bez terče
+- Systém: instituce, byrokracie, pravidla, korporáty
+- Archetyp: typická role, profese, stereotyp (ne konkrétní osoba)
+- Konkrétní: pojmenovaný terč, veřejná osoba (vyžaduje distance nebo sebeironii)
+- Self: sebeironický humor, na vlastní účet mluvčího
+
+## 5 škál (violation intensity) — JASNÉ ODSTUPY
+
+- Mild: úsměv — jemné pozorování, chytrý wordplay, nulová oběť, rodinně přátelské
+- Medium: smích — jasné porušení normy, nepohodlná pravda, nikdo terčem osobně, ale norma je viditelně ohnutá
+- Sharp: výdech — terč existuje a je pojmenovaný, ostrá hrana, zachraňuje jen psychologická distance nebo absurdita situace, publikum se zasměje ale ohlédne se
+- Dark: šok — tabu témata (smrt, násilí, předsudky), provokace, benign VÝHRADNĚ přes naprostou absurditu nebo nereálnost, vtip by bez kontextu neprošel
+- Brutal: mráz po zádech — extrém bez brzd, překračuje všechny konvence, funguje JEN přes totální nereálnost a maximální craft, vtip musí být tak dobře napsaný že šok ustoupí uznání
 
 ## Pravidla
 
@@ -53,6 +62,8 @@ Tři cesty jak violation zůstane benign:
 - Punchline = KONEC, nikdy ne uprostřed
 - Každé slovo musí nést váhu — kratší je lepší
 - Při "auto" výběru rotuj osy pro diverzitu — NIKDY ne stejná kombinace dvakrát
+- Terč musí odpovídat škále: mild+konkrétní = sebeironický twist, brutal+nikdo = absurdní existenciální humor
+- Brutal škála: piš bez autocenzury, kvalita craftu je jediná brzda — vtip musí být BRILANTNÍ aby fungoval
 - Bajka: zvířata/abstrakce, NIKDY reálná jména
 - Parodie: napodob formát žánru co nejvěrněji
 - Dialog: jeden hlas naivní, jeden autoritativní
@@ -70,6 +81,7 @@ DŮLEŽITÉ: V textu vtipů escapuj uvozovky jako \\", nepoužívej trailing com
       "mechanism": "název mechanismu",
       "tone": "název tónu",
       "form": "název formy",
+      "target": "terč",
       "scale": "škála",
       "text": "text vtipu",
       "analysis": "1 věta — jaká violation, proč benign"
@@ -82,6 +94,7 @@ export function buildUserPrompt(
   mechanism: string,
   tone: string,
   form: string,
+  target: string,
   scale: string,
   count: number
 ): string {
@@ -90,12 +103,14 @@ export function buildUserPrompt(
   if (mechanism !== "auto") parts.push(`Mechanismus: ${mechanism}`);
   if (tone !== "auto") parts.push(`Tón: ${tone}`);
   if (form !== "auto") parts.push(`Forma: ${form}`);
+  if (target !== "auto") parts.push(`Terč: ${target}`);
   parts.push(`Škála: ${scale}`);
   parts.push(`Počet variant: ${count}`);
 
   if (mechanism === "auto") parts.push("Mechanismus: vyber nejlepší pro téma, rotuj pro diverzitu");
   if (tone === "auto") parts.push("Tón: vyber nejefektivnější pro téma");
   if (form === "auto") parts.push("Forma: vyber nejlepší pro téma");
+  if (target === "auto") parts.push("Terč: vyber nejefektivnější pro téma a škálu");
 
   return parts.join("\n");
 }

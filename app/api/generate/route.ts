@@ -28,6 +28,7 @@ export async function POST(request: Request) {
     body.mechanism,
     body.tone,
     body.form,
+    body.target,
     body.scale,
     body.count
   );

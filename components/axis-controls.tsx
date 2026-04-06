@@ -12,10 +12,12 @@ import {
   MECHANISMS,
   TONES,
   FORMS,
+  TARGETS,
   SCALES,
   type Mechanism,
   type Tone,
   type Form,
+  type Target,
   type Scale,
 } from "@/lib/types";
 
@@ -23,11 +25,13 @@ interface AxisControlsProps {
   mechanism: Mechanism;
   tone: Tone;
   form: Form;
+  target: Target;
   scale: Scale;
   count: number;
   onMechanismChange: (v: Mechanism) => void;
   onToneChange: (v: Tone) => void;
   onFormChange: (v: Form) => void;
+  onTargetChange: (v: Target) => void;
   onScaleChange: (v: Scale) => void;
   onCountChange: (v: number) => void;
   disabled?: boolean;
@@ -78,18 +82,20 @@ export function AxisControls({
   mechanism,
   tone,
   form,
+  target,
   scale,
   count,
   onMechanismChange,
   onToneChange,
   onFormChange,
+  onTargetChange,
   onScaleChange,
   onCountChange,
   disabled,
 }: AxisControlsProps) {
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         <AxisGroup
           title="Mechanismus"
           options={MECHANISMS}
@@ -98,7 +104,7 @@ export function AxisControls({
           disabled={disabled}
         />
         <AxisGroup
-          title="Ton"
+          title="Tón"
           options={TONES}
           value={tone}
           onChange={onToneChange}
@@ -112,7 +118,14 @@ export function AxisControls({
           disabled={disabled}
         />
         <AxisGroup
-          title="Skala"
+          title="Terč"
+          options={TARGETS}
+          value={target}
+          onChange={onTargetChange}
+          disabled={disabled}
+        />
+        <AxisGroup
+          title="Škála"
           options={SCALES}
           value={scale}
           onChange={onScaleChange}
