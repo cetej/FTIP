@@ -35,15 +35,16 @@ export const TARGETS = [
   { value: "system", label: "Systém", description: "Instituce, byrokracie, pravidla" },
   { value: "archetyp", label: "Archetyp", description: "Typická role, stereotyp, profese" },
   { value: "konkretni", label: "Konkrétní", description: "Pojmenovaný terč, veřejná osoba" },
+  { value: "autor", label: "Autor", description: "Autor/mluvčí původního textu" },
   { value: "self", label: "Self", description: "Sebeironický, na vlastní účet" },
 ] as const;
 
 export const SCALES = [
-  { value: "mild", label: "Mild", description: "Úsměv — wordplay, pozorování, nulová oběť" },
-  { value: "medium", label: "Medium", description: "Smích — jasné porušení normy, nikdo terčem osobně" },
-  { value: "sharp", label: "Sharp", description: "Výdech — terč existuje, ostré, zachraňuje distance" },
-  { value: "dark", label: "Dark", description: "Šok — tabu, provokace, benign jen přes absurditu" },
-  { value: "brutal", label: "Brutal", description: "Mráz — extrém bez brzd, funguje jen přes totální nereálnost" },
+  { value: "mild", label: "Mild", description: "Kavárna — wordplay, pozorování, nulová oběť" },
+  { value: "medium", label: "Medium", description: "Bar — norma ohnutá, nepohodlná pravda nahlas" },
+  { value: "sharp", label: "Sharp", description: "Šatna — terč pojmenovaný, říkáš to jen svým" },
+  { value: "dark", label: "Dark", description: "3 ráno — tabu nahlas, smích přes hrůzu" },
+  { value: "brutal", label: "Brutal", description: "Tribunál — nic svatého, čistý náraz bez záchranné sítě" },
 ] as const;
 
 export type Mechanism = (typeof MECHANISMS)[number]["value"];
